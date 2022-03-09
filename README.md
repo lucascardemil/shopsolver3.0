@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ProyectoFoto
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3.
@@ -25,3 +26,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+=======
+# proyecto_angular
+>>>>>>> b0cc3e8f9ef9e20e13b272f967a2269b9654c869
