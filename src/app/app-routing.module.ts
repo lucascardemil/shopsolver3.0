@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent} from './components/dashboard/dashboard.component';
+import { AddPhotoComponent } from './components/add-photo/add-photo.component';
+import { GenerateCsvComponent } from './components/generate-csv/generate-csv.component';
 
 const routes: Routes = [
     {
@@ -17,6 +19,14 @@ const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'add-photo',
+        component: AddPhotoComponent
+    },
+    {
+        path: 'generate-csv',
+        component: GenerateCsvComponent
     },
     
 ];

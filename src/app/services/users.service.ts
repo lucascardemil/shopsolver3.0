@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +19,27 @@ export class UsersService {
 
    
     getUsers(){
-        return this.http.get(`${this.API_URI}/users`);
+        return this.http.get(`$${environment.apiUrl}/users`);
     }
 
     getUser(id: string){
-        return this.http.get(`${this.API_URI}/users/${id}`);
+        return this.http.get(`$${environment.apiUrl}/users/${id}`);
     }
 
     deleteUser(id: string){
-        return this.http.delete(`${this.API_URI}/users/${id}`);
+        return this.http.delete(`${environment.apiUrl}/users/${id}`);
     }
 
     createUser(user: User){
-        return this.http.post(`${this.API_URI}/users`, user);
+        return this.http.post(`${environment.apiUrl}/users`, user);
     }
 
     updateUser(id: string, user: User): Observable<User> { 
-        return this.http.put(`${this.API_URI}/users/${id}`, user);
+        return this.http.put(`${environment.apiUrl}/users/${id}`, user);
     }
 
     login(user: any): Observable<any> {
-        return this.http.post(`${this.API_URI}/users/login`, user)
+        return this.http.post(`${environment.apiUrl}/users/login`, user)
     }
 
     
@@ -45,4 +47,7 @@ export class UsersService {
         return (localStorage.getItem('auth_token') !== null);
     }
 
+    logout(){
+        localStorage.removeItem('auth_token');
+    }
 }

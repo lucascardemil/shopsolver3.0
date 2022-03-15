@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="title">
+        <h2>Ingresar Foto</h2>
+    </div>
+    <div class="login">
+        <mat-card-content>
+            <form [formGroup]="photoForm" (ngSubmit)="addPhoto()">
+                
+                <mat-form-field>
+                    <input formControlName="precio" placeholder="Precio" matInput>
+                </mat-form-field>
+            
+                <mat-form-field>
+                    <textarea formControlName="descripcion" placeholder="Descripcion" matInput></textarea>
+                </mat-form-field>
+
+                
+                <input type="file" class="file-input"
+                (change)="onFileSelected($event)" #fileUpload>
+         
+         <div class="file-upload">
+         
+            {{fileName || "No file uploaded yet."}}
+         
+             <button mat-mini-fab color="primary" class="upload-btn"
+               (click)="fileUpload.click()">
+                 <mat-icon>attach_file</mat-icon>
+             </button>
+         </div>
+         <canvas id=c width=800 height=800></canvas>
+
+    
+         
+
+         
+
+         
+         
+         
+               
+                <div class="button">
+                    <button mat-raised-button color="primary">Guardar</button>
+                </div>
+            </form> 
+        </mat-card-content>     
+    </div>
+    
+</div>
+
+
+
+
+
+<notifier-container></notifier-container>
+
+  
+  
+
+

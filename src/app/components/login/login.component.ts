@@ -12,7 +12,6 @@ import { NotifierService } from 'angular-notifier';
 export class LoginComponent implements OnInit {
 
     hide = true;
-    shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
 
     userForm = new FormGroup({
         user: new FormControl(),

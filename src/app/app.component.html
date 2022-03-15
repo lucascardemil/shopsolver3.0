@@ -1,1 +1,14 @@
+<mat-toolbar color="primary" class="navbar" *ngIf="this.userService.logIn() == true">
+    <span>Proyecto Foto</span>
+    <div>
+        <a mat-button routerLink="dashboard">Inicio</a>
+        <a mat-button routerLink="add-photo">Ingresar Fotos</a>
+        <a mat-button routerLink="generate-csv">Generar CSV</a>
+        <a mat-button href="#" (click)="logout()">Salir</a>
+    </div>
+</mat-toolbar>
 <router-outlet></router-outlet>
+
+
+
+
