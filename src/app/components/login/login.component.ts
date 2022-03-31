@@ -3,6 +3,8 @@ import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
+import { User } from 'src/app/models/User';
+import { Response } from 'src/app/models/Response';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
 
     userForm = new FormGroup({
         user: new FormControl(),
-        password: new FormControl('20')
+        password: new FormControl()
     }); 
 
     constructor(
@@ -32,25 +34,22 @@ export class LoginComponent implements OnInit {
         })
 
         if(this.userService.logIn()){
-            this.router.navigate(['dashboard']);
+            this.router.navigate(['add-photo']);
         }
     }
 
 
-    login(): any {
+    login(user: User) {
         
-        this.userService.login(this.userForm.value)
-        .subscribe(
-            result => {
-                if(result.token){
-                    this.router.navigate(['dashboard']);
-                    localStorage.setItem('auth_token', result.token);
-                }else{
-                    this.notifier.notify('error', result.message );
-                }
-            },
-            
-        );
+        this.userService.login(user).subscribe(data =>{
+            let dataResponse:Response = data;
+            if(dataResponse.status == "ok"){
+                localStorage.setItem('token', dataResponse.result.token);
+                this.router.navigateByUrl('generate-csv')
+            }else{
+                this.notifier.notify('error', dataResponse.result.message );
+            }
+        });
     }
 
 

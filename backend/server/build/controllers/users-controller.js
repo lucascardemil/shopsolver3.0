@@ -37,8 +37,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
 const jwt = __importStar(require("jsonwebtoken"));
-const jwt_decode_1 = __importDefault(require("jwt-decode"));
 const config_1 = __importDefault(require("../config/config"));
+var bcrypt = require('bcryptjs');
 class UsersController {
     all(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -60,25 +60,49 @@ class UsersController {
         return __awaiter(this, void 0, void 0, function* () {
             const { user, password } = req.body;
             if (user == "") {
-                res.json({ message: "El usuario es requerido" });
+                return res.status(200).json({
+                    status: "error",
+                    result: {
+                        message: "El usuario es requerido"
+                    }
+                });
             }
             if (password == "") {
-                res.json({ message: "La contraseña es requerida" });
+                return res.status(200).json({
+                    status: "error",
+                    result: {
+                        message: "La contraseña es requerida"
+                    }
+                });
             }
             else {
-                const users = yield database_1.default.query('SELECT * FROM users WHERE user = ? AND password = ?', [user, password]);
-                if (users.length > 0) {
-                    const token = jwt.sign({ userId: users[0].id, username: users[0].user }, config_1.default.jwtSecret, { expiresIn: '1h' });
-                    res.json({ signed_user: users[0].user, token: token });
+                const user_exist = yield database_1.default.query('SELECT * FROM users WHERE user = ?', [user]);
+                if (!user_exist || !(yield bcrypt.compare(password, user_exist[0].token))) {
+                    return res.status(200).json({
+                        status: "error",
+                        result: {
+                            message: "El usuario no existe"
+                        }
+                    });
                 }
                 else {
-                    res.json({ message: "El usuario no existe" });
+                    const token = jwt.sign({ sub: user_exist[0].id }, config_1.default.jwtSecret, { expiresIn: '7d' });
+                    return res.status(200).json({
+                        status: "ok",
+                        result: {
+                            user: user_exist[0].user,
+                            token: token
+                        }
+                    });
                 }
             }
         });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (req.body.password) {
+                req.body.token = yield bcrypt.hash(req.body.password, 10);
+            }
             yield database_1.default.query('INSERT INTO users set ?', [req.body]);
             res.json({ message: 'Usuario guardado' });
         });
@@ -96,14 +120,6 @@ class UsersController {
             const user = yield database_1.default.query('DELETE FROM users WHERE id = ?', [id]);
             res.json({ message: 'Usuario fue eliminado' });
         });
-    }
-    getDecodedAccessToken(token) {
-        try {
-            return (0, jwt_decode_1.default)(token);
-        }
-        catch (Error) {
-            return null;
-        }
     }
 }
 const usersController = new UsersController();

@@ -2,10 +2,12 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
-
-
 import indexRoutes from './routes/index-routes';
 import usersRoutes from './routes/users-routes';
+import photosRoutes from './routes/photos-routes';
+import groupsRoutes from './routes/groups-routes';
+import { group } from 'console';
+
 
 
 class Server {
@@ -28,6 +30,8 @@ class Server {
     routes(): void{
         this.app.use('/', indexRoutes);
         this.app.use('/api/users/', usersRoutes);
+        this.app.use('/api/photos/', photosRoutes);
+        this.app.use('/api/groups/', groupsRoutes);
     }
 
     start(): void{

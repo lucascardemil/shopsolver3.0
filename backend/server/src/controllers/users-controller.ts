@@ -1,8 +1,10 @@
 import {Request, Response} from 'express';
 import pool from '../database';
 import * as jwt from 'jsonwebtoken';
-import jwt_decode from 'jwt-decode';
 import config from '../config/config';
+
+
+var bcrypt = require('bcryptjs');
 
 class UsersController {
     public async all (req: Request, res: Response){
@@ -24,22 +26,51 @@ class UsersController {
         const { user, password } = req.body;
 
         if(user == "") {
-            res.json({message: "El usuario es requerido"});
+            return res.status(200).json({
+                status: "error",
+                result:{
+                    message: "El usuario es requerido"
+                }
+            });
         }if(password == "") {
-            res.json({message: "La contraseña es requerida"});
+            return res.status(200).json({
+                status: "error",
+                result: {
+                    message: "La contraseña es requerida"
+                }
+            });
         }else{
-            const users = await pool.query('SELECT * FROM users WHERE user = ? AND password = ?' , [user, password]);
-            if (users.length > 0){
-                const token = jwt.sign({ userId: users[0].id, username: users[0].user }, config.jwtSecret, { expiresIn: '1h' });
-                res.json({signed_user: users[0].user, token: token});
+
+            const user_exist = await pool.query('SELECT * FROM users WHERE user = ?', [user]);
+
+            if (!user_exist || !(await bcrypt.compare(password, user_exist[0].token))){
+                return res.status(200).json({ 
+                    status: "error",
+                    result:{
+                        message: "El usuario no existe"
+                    } 
+                });
             }else{
-                res.json({message: "El usuario no existe"});
+                const token = jwt.sign({ sub: user_exist[0].id }, config.jwtSecret, { expiresIn: '7d' });
+                return res.status(200).json({
+                    status: "ok",
+                    result: {
+                        user: user_exist[0].user,
+                        token: token
+                    } 
+                });
             }
+
         }
     }
 
 
     public async create (req: Request, res: Response){
+        
+        if (req.body.password) {
+            req.body.token = await bcrypt.hash(req.body.password, 10);
+        }
+
         await pool.query('INSERT INTO users set ?', [req.body]);
         res.json({message: 'Usuario guardado'});
     }
@@ -55,16 +86,11 @@ class UsersController {
         const user = await pool.query('DELETE FROM users WHERE id = ?', [id]);
         res.json({message: 'Usuario fue eliminado'});
     }
-
-    public getDecodedAccessToken(token: string): any {
-        try {
-            return jwt_decode(token);
-        } catch(Error) {
-            return null;
-        }
-    }
+    
     
 }
+
+
 
 const usersController = new UsersController();
 export default usersController;

@@ -14,7 +14,7 @@ class UsersRoutes {
         this.router.get('/', users_controller_1.default.all);
         this.router.get('/:id', users_controller_1.default.one);
         this.router.post('/login', users_controller_1.default.login);
-        this.router.post('/', users_controller_1.default.create);
+        this.router.post('/register', users_controller_1.default.create);
         this.router.delete('/:id', users_controller_1.default.delete);
         this.router.put('/:id', users_controller_1.default.update);
     }

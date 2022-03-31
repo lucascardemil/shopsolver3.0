@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" fxFlex.xs="90" fxFlex.sm="70" fxFlex.md="50" fxFlex="30">
     <div class="title">
         <h2>Proyecto Foto</h2>
     </div>
     <div class="login">
         <mat-card-content>
-            <form [formGroup]="userForm" (ngSubmit)="login()">
+            <form [formGroup]="userForm" (ngSubmit)="login(userForm.value)">
                 
                 <mat-form-field>
                     <input formControlName="user" placeholder="Usuario" matInput>
@@ -24,11 +24,4 @@
         </mat-card-content>     
     </div>
 </div>
-
-
-
-
 <notifier-container></notifier-container>
-
-  
-  

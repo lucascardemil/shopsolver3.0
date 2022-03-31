@@ -1,1 +1,44 @@
-<p>generate-csv works!</p>
+<mat-toolbar>
+  <div fxHide.lt-md class="mat-h3" style="margin-bottom: 0; padding: 0 16px;">{{title}}</div>
+  <span class="example-spacer"></span>
+  <div class="example-button-row">
+    <button mat-raised-button class="carpeta" (click)="allPhotos()">Todas</button>
+    <button mat-raised-button class="carpeta" [matMenuTriggerFor]="menu">Carpeta</button>
+    <mat-menu #menu="matMenu" >
+      <button mat-menu-item *ngFor="let group of groups" (click)="searchGroupPhotos(group.id)">{{group.name}}</button>
+    </mat-menu>
+    <button mat-raised-button class="csv" (click)="convertCSV()"><mat-icon>insert_drive_file</mat-icon> CSV</button>
+  </div>
+  <div fxHide.lt-md>
+    <mat-slider color="primary"  [max]="6" [min]="3" [(ngModel)]="gridColumns" [thumbLabel]="true"></mat-slider>
+  </div>
+</mat-toolbar>
+
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div [fxFlex]="(60/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let photo of photos | paginate:page_size:page_number">
+      <mat-card class="mat-elevation-z4">
+        <img mat-card-image [src]="photo.image">
+        <mat-card-title>{{ photo.price }}</mat-card-title>
+        <mat-card-content>
+          <p>{{ photo.description }}</p>
+          <section  style="text-align: right;">
+            <mat-checkbox color="primary" [value]="photo.id" [checked]="photo.select" (change)="onChangePhoto($event)"></mat-checkbox>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="content-button">
+    <button mat-fab color="warn" (click)="openDeleteDialog()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-fab color="primary" (click)="openEditDialog()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-paginator [length]="photos.length" [pageSize]="page_size"  [pageSizeOptions]="[5, 10, 25, 100]" (page)="paginator($event)" showFirstLastButtons></mat-paginator>
+<notifier-container></notifier-container>
+

@@ -1,24 +1,17 @@
 :host {
     display: grid;
     justify-content: center;
-    margin: 100px 0px;
+    margin: 100px auto;
 }
 
 mat-form-field {
     width: 100%;
-    min-width: 300px;
     margin-bottom: 20px;
 }
 
 mat-card-title{
     margin-bottom: 20px;
     background-color:  #3f51b5;
-}
-
-mat-card-title,
-mat-card-content {
-    display: flex;
-    justify-content: center;
 }
 
 .button {

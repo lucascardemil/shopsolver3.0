@@ -1,55 +1,50 @@
-<div class="container">
+<div class="container" fxFlex.sm="70" fxFlex.xs="90" fxFlex="50">
     <div class="title">
         <h2>Ingresar Foto</h2>
     </div>
     <div class="login">
         <mat-card-content>
-            <form [formGroup]="photoForm" (ngSubmit)="addPhoto()">
+            <form [formGroup]="photoForm" (ngSubmit)="addPhoto(photoForm.value)">
                 
                 <mat-form-field>
-                    <input formControlName="precio" placeholder="Precio" matInput>
+                    <input type="number" formControlName="price" placeholder="Precio"  matInput>
                 </mat-form-field>
             
                 <mat-form-field>
-                    <textarea formControlName="descripcion" placeholder="Descripcion" matInput></textarea>
+                    <textarea formControlName="description" placeholder="Descripcion" matInput></textarea>
                 </mat-form-field>
 
-                
-                <input type="file" class="file-input"
-                (change)="onFileSelected($event)" #fileUpload>
-         
-         <div class="file-upload">
-         
-            {{fileName || "No file uploaded yet."}}
-         
-             <button mat-mini-fab color="primary" class="upload-btn"
-               (click)="fileUpload.click()">
-                 <mat-icon>attach_file</mat-icon>
-             </button>
-         </div>
-         <canvas id=c width=800 height=800></canvas>
+                <mat-form-field appearance="fill">
+                    <mat-label>Carpeta</mat-label>
+                    <mat-select formControlName="group">
+                        <mat-option *ngFor="let group of groups" [value]="group.id">
+                          {{group.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-    
-         
-
-         
-
-         
-         
-         
-               
-                <div class="button">
-                    <button mat-raised-button color="primary">Guardar</button>
+                <div style="float: right">
+                    <a mat-raised-button color="primary" (click)="showMarkerArea()">Editar Foto</a>
                 </div>
+                <div >
+                    <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+                    <div class="file-upload">{{fileName || "No file uploaded yet."}}
+                        <a mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()" >
+                            <mat-icon>attach_file</mat-icon>
+                        </a>
+                    </div>
+                </div>
+                
+
+                <img [src]="src" id="image"/>
+                <button mat-raised-button color="primary">Guardar</button>
+
+                
             </form> 
         </mat-card-content>     
     </div>
     
 </div>
-
-
-
-
 
 <notifier-container></notifier-container>
 
