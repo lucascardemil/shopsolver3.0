@@ -1,47 +1,63 @@
+.sub-menu {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    display: table;
+    margin: 0;
+    background-color: #F2EEE3;
+}
+.title {
+    display: table-cell;
+    font-size: 20px;
+    padding: 0 16px;
+    width: 74%;
+}
+
+.example-button-row {
+    display: table-cell;
+    text-align: right;
+}
+
+
+
+.csv {
+    margin: 8px 8px 8px 0;
+    color: #fff;
+    background: #388E3C;
+}
+.zip{
+    margin: 8px 8px 8px 0;
+}
+.carpeta {
+    margin: 8px 8px 8px 0;
+    color: #fff;
+    background: #B4A888;
+}
+
 .content {
-  padding: 16px;
-  height: 100%;
+    padding: 16px;
+    height: 100%;
 }
 
-.content > mat-card {
-  width: 200px;
+.content>mat-card {
+    width: 200px;
 }
 
-.example-spacer {
-  flex: 1 1 auto;
+.mat-fab {
+    margin: 5px;
+    background-color: #B4A888;
+    color: #fff;
 }
 
-.column-label {
-  margin-right: 8px;
-  font-size: 1rem;
-}
-.csv{
-  margin-right: 16px;
-  color: #fff; 
-  background: #388E3C; 
-}
-.carpeta{
-  margin-right: 16px;
-  color: #fff; 
-  background: #3f51b5; 
-}
-
-.mat-form-field{
-  font-size: 14px;
-  margin-right: 8px;
+.mat-form-field {
+    font-size: 14px;
+    margin-right: 8px;
 }
 
 
-.content-button{
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 20px 0;
+.content-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0;
 }
-
-.mat-fab{
-  margin: 5px;
-}
-
-

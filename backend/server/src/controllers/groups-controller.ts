@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import pool from '../database';
+const fs = require( 'fs' );
 
 class GroupsController {
 
@@ -23,25 +24,38 @@ class GroupsController {
         }
     }
 
+    
+    
     public async delete (req: Request, res: Response){
         const { id } = req.params;
-        const groups = await pool.query('DELETE FROM groups WHERE id = ?', [id]);
-        if (groups){
-            return res.status(200).json({ 
-                status: "ok",
-                result:{
-                    message: "La carpeta fue eliminado"
-                } 
+
+        const images = await pool.query('SELECT * FROM photos WHERE id_group = ?', [id]);
+
+        if(images.length > 0){
+            images.forEach(async (element: any) => {
+                fs.unlinkSync( '..\\..\\src' + element.image);
             });
-        }else{
-            return res.status(200).json({ 
-                status: "error",
-                result:{
-                    message: "La carpeta no se elimino"
-                } 
-            });
-            
+
+            const groups = await pool.query('DELETE FROM groups WHERE id = ?', [id]);
+            if (groups){
+                return res.status(200).json({ 
+                    status: "ok",
+                    result:{
+                        message: "La carpeta fue eliminada!"
+                    } 
+                });
+            }else{
+                return res.status(200).json({ 
+                    status: "error",
+                    result:{
+                        message: "La carpeta no se elimino!"
+                    } 
+                });
+                
+            }
         }
+        
+        
     }
 
 

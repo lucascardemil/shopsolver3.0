@@ -15,7 +15,10 @@ mat-form-field {
 
 mat-card-title{
     margin-bottom: 20px;
-    background-color:  #3f51b5;
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    background-color: #B4A888;
 }
 
 .button {
@@ -30,7 +33,7 @@ mat-card-title{
 }
 
 .title{
-    background-color: #3f51b5;
+    background-color: #B4A888;
     color: #fff;
     padding: 16px;
     border-top-left-radius: 4px;

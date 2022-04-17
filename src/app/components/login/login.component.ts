@@ -32,10 +32,6 @@ export class LoginComponent implements OnInit {
             user: ['', [Validators.required]],
             password: ['', [Validators.required, Validators.minLength(5)]],
         })
-
-        if(this.userService.logIn()){
-            this.router.navigate(['add-photo']);
-        }
     }
 
 

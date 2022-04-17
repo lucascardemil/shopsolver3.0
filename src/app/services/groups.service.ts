@@ -17,8 +17,8 @@ export class GroupsService {
     return this.http.get<Group[]>(`${environment.apiUrl}/groups`);
   }
 
-  getGroup(id: string): Observable<Group[]>{
-    return this.http.get<Group[]>(`${environment.apiUrl}/groups/${id}`);
+  getGroup(id: string): Observable<Group>{
+    return this.http.get<Group>(`${environment.apiUrl}/groups/${id}`);
   }
   
   saveGroup(group: Group): Observable<Response>{
@@ -28,4 +28,7 @@ export class GroupsService {
   deleteGroup(id: string): Observable<Response>{
     return this.http.delete<Response>(`${environment.apiUrl}/groups/${id}`);
   }
+
+
+
 }

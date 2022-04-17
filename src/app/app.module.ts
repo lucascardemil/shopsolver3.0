@@ -48,11 +48,7 @@ import { SpinnerModule } from './components/spinner/spinner.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { DeletePhotoComponent } from './components/delete-photo/delete-photo.component';
-
-
-
-
-
+import { DeleteGroupComponent } from './components/delete-group/delete-group.component';
 
 
 @NgModule({
@@ -64,7 +60,8 @@ import { DeletePhotoComponent } from './components/delete-photo/delete-photo.com
     PaginatePipe,
     AddFileComponent,
     UpdateGroupsComponent,
-    DeletePhotoComponent
+    DeletePhotoComponent,
+    DeleteGroupComponent
     
   ],
   imports: [

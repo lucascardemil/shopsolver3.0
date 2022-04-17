@@ -5,9 +5,9 @@ mat-form-field {
     width: 100%;
     margin-bottom: 20px;
 }
-/* button{
-    width: 100%;
-} */
-
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    background-color: #B4A888;
+    color: #fff;
+}
 
 

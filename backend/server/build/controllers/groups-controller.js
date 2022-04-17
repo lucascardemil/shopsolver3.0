@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
+const fs = require('fs');
 class GroupsController {
     all(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -40,22 +41,28 @@ class GroupsController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const groups = yield database_1.default.query('DELETE FROM groups WHERE id = ?', [id]);
-            if (groups) {
-                return res.status(200).json({
-                    status: "ok",
-                    result: {
-                        message: "La carpeta fue eliminado"
-                    }
-                });
-            }
-            else {
-                return res.status(200).json({
-                    status: "error",
-                    result: {
-                        message: "La carpeta no se elimino"
-                    }
-                });
+            const images = yield database_1.default.query('SELECT * FROM photos WHERE id_group = ?', [id]);
+            if (images.length > 0) {
+                images.forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                    fs.unlinkSync('..\\..\\src' + element.image);
+                }));
+                const groups = yield database_1.default.query('DELETE FROM groups WHERE id = ?', [id]);
+                if (groups) {
+                    return res.status(200).json({
+                        status: "ok",
+                        result: {
+                            message: "La carpeta fue eliminada!"
+                        }
+                    });
+                }
+                else {
+                    return res.status(200).json({
+                        status: "error",
+                        result: {
+                            message: "La carpeta no se elimino!"
+                        }
+                    });
+                }
             }
         });
     }

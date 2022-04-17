@@ -13,23 +13,23 @@ CREATE TABLE users(
 INSERT INTO users (id, user, token, created_at) VALUES
 (1, 'lucas.cardemil', '$2a$10$FWr4KGO/spENw5vXpoquwO63ZNNYL9t4mSCIxGR.JG1m.aI9bsyuK', '2022-03-17 17:01:47');
 
-
-CREATE TABLE photos(
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_groups int(11) NOT NULL,
-    precio INT(11),
-    descripcion VARCHAR(255),
-    imagen VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
 CREATE TABLE groups(
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+
+CREATE TABLE photos(
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_group int(11) NOT NULL,
+    price INT(11),
+    description VARCHAR(255),
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 ALTER TABLE photos
-  ADD CONSTRAINT id_groups FOREIGN KEY (id_groups) REFERENCES photos (id) ON DELETE CASCADE;
+  ADD CONSTRAINT id_group FOREIGN KEY (id_group) REFERENCES groups (id) ON DELETE CASCADE;
 COMMIT;

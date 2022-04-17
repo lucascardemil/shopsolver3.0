@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AddFileComponent } from './components/add-file/add-file.component';
 import { AddPhotoComponent } from './components/add-photo/add-photo.component';
 import { GenerateCsvComponent } from './components/generate-csv/generate-csv.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
     {
@@ -18,14 +19,21 @@ const routes: Routes = [
     },
     {
         path: 'add-file',
-        component: AddFileComponent
+        component: AddFileComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'add-photo',
-        component: AddPhotoComponent
+        component: AddPhotoComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'generate-csv',
+        component: GenerateCsvComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: '**',
         component: GenerateCsvComponent,
     },
     
@@ -33,7 +41,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
