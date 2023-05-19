@@ -5,6 +5,7 @@ const multipart = require('connect-multiparty');
 
 const multipartMiddleware = multipart({
     uploadDir: '../../src/assets/photos'
+    // uploadDir: '../shopsolver.comercialsupra.cl/assets/photos'
 });
 
 class PhotosRoutes {

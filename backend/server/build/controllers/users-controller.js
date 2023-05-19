@@ -42,14 +42,14 @@ var bcrypt = require('bcryptjs');
 class UsersController {
     all(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const users = yield database_1.default.query('SELECT * FROM users');
+            const users = yield database_1.default.query('SELECT * FROM users_shopsolver');
             res.json(users);
         });
     }
     one(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const user = yield database_1.default.query('SELECT * FROM users WHERE id = ?', [id]);
+            const user = yield database_1.default.query('SELECT * FROM users_shopsolver WHERE id = ?', [id]);
             if (user.length > 0) {
                 return res.json(user[0]);
             }
@@ -76,7 +76,7 @@ class UsersController {
                 });
             }
             else {
-                const user_exist = yield database_1.default.query('SELECT * FROM users WHERE user = ?', [user]);
+                const user_exist = yield database_1.default.query('SELECT * FROM users_shopsolver WHERE user = ?', [user]);
                 if (!user_exist || !(yield bcrypt.compare(password, user_exist[0].token))) {
                     return res.status(200).json({
                         status: "error",
@@ -103,21 +103,21 @@ class UsersController {
             if (req.body.password) {
                 req.body.token = yield bcrypt.hash(req.body.password, 10);
             }
-            yield database_1.default.query('INSERT INTO users set ?', [req.body]);
+            yield database_1.default.query('INSERT INTO users_shopsolver set ?', [req.body]);
             res.json({ message: 'Usuario guardado' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE users SET ? WHERE id = ?', [req.body, id]);
+            yield database_1.default.query('UPDATE users_shopsolver SET ? WHERE id = ?', [req.body, id]);
             res.json({ message: 'Usuario actualizado' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const user = yield database_1.default.query('DELETE FROM users WHERE id = ?', [id]);
+            const user = yield database_1.default.query('DELETE FROM users_shopsolver WHERE id = ?', [id]);
             res.json({ message: 'Usuario fue eliminado' });
         });
     }

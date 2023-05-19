@@ -8,6 +8,7 @@ const photos_controller_1 = __importDefault(require("../controllers/photos-contr
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({
     uploadDir: '../../src/assets/photos'
+    // uploadDir: '../shopsolver.comercialsupra.cl/assets/photos'
 });
 class PhotosRoutes {
     constructor() {

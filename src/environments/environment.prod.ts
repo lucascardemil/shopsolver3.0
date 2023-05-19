@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'http://wapaslaserena-fotos.maintpro.cl/backend/api'
+    production: true,
+    apiUrl: 'https://shopsolver.comercialsupra.cl/api'
 };

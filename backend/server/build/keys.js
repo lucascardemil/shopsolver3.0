@@ -5,6 +5,12 @@ exports.default = {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'bd_proyecto_foto'
+        database: 'suprapp'
     }
+    // database: {
+    //     host: 'localhost',
+    //     user: 'supra',
+    //     password: '7txpjtQCkwnx.',
+    //     database: 'supra_nuevosupra'
+    // }
 };

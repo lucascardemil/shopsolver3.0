@@ -17,16 +17,16 @@ const fs = require('fs');
 class PhotosController {
     all(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const photos = yield database_1.default.query('SELECT * FROM photos');
+            const photos = yield database_1.default.query(`SELECT * FROM products`);
             res.json(photos);
         });
     }
     searchGroupPhotos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const photos = yield database_1.default.query('SELECT * FROM photos WHERE id_group = ?', [id]);
+            const photos = yield database_1.default.query('SELECT * FROM products INNER JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product WHERE photos_shopsolver.id_group = ?', [id]);
             if (photos.length > 0) {
-                const group = yield database_1.default.query('SELECT * FROM groups WHERE id = ?', [id]);
+                const group = yield database_1.default.query('SELECT * FROM groups_shopsolver WHERE id = ?', [id]);
                 return res.status(200).json({
                     status: "ok",
                     result: {
@@ -49,35 +49,86 @@ class PhotosController {
         return __awaiter(this, void 0, void 0, function* () {
             req.body.url = req.files;
             const new_url = req.body.url['image']['path'].slice(9);
-            const photo = yield database_1.default.query('INSERT INTO photos(id_group, price, description, image) VALUES (?,?,?,?)', [req.body.group, req.body.price, req.body.description, new_url]);
-            if (photo) {
-                return res.status(200).json({
-                    status: "ok",
-                    result: {
-                        message: "La foto se subio correctamente"
-                    }
-                });
+            // const cut_url = req.body.url['image']['path'].slice(3);
+            // const new_url = 'http://' + cut_url;
+            const photos = yield database_1.default.query('SELECT * FROM photos_shopsolver WHERE id = ?', [req.body.id]);
+            if (photos.length > 0) {
+                const filePath = '..\\..\\src' + photos[0].image;
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                }
+                // const filePath = '../' + photos[0].image.slice(7);
+                // fs.unlinkSync(filePath);
+                const photo = yield database_1.default.query('UPDATE photos_shopsolver SET id_group = ?, price = ?, description = ?, image = ? WHERE id = ?', [req.body.group, req.body.price, req.body.description, new_url, req.body.id]);
+                if (photo) {
+                    return res.status(200).json({
+                        status: "ok",
+                        result: {
+                            message: "La informacion se actualizo correctamente",
+                            product: {
+                                id: req.body.id,
+                                id_group: req.body.group,
+                                image: new_url,
+                                price: req.body.price,
+                                description: req.body.description
+                            }
+                        }
+                    });
+                }
+                else {
+                    return res.status(200).json({
+                        status: "error",
+                        result: {
+                            message: "La informacion no se actualizo"
+                        }
+                    });
+                }
             }
             else {
-                return res.status(200).json({
-                    status: "error",
-                    result: {
-                        message: "La foto no se subio"
-                    }
-                });
+                const photo = yield database_1.default.query('INSERT INTO photos_shopsolver(id_product, id_group, price, description, image) VALUES (?,?,?,?,?)', [req.body.id, req.body.group, req.body.price, req.body.description, new_url]);
+                if (photo) {
+                    return res.status(200).json({
+                        status: "ok",
+                        result: {
+                            message: "La foto se subio correctamente",
+                            product: {
+                                id: req.body.id,
+                                id_group: req.body.group,
+                                image: new_url,
+                                price: req.body.price,
+                                description: req.body.description
+                            }
+                        }
+                    });
+                }
+                else {
+                    return res.status(200).json({
+                        status: "error",
+                        result: {
+                            message: "La foto no se subio"
+                        }
+                    });
+                }
             }
         });
     }
     deletePhoto(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             req.body.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                fs.unlinkSync('..\\..\\src' + element.image);
-                yield database_1.default.query('DELETE FROM photos WHERE id = ?', [element.id]);
+                const filePath = '..\\..\\src' + element.image;
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                }
+                // const cut_url = element.image.slice(7);
+                // const new_url = '../' + cut_url;
+                // fs.unlinkSync(new_url);
+                yield database_1.default.query('DELETE FROM photos_shopsolver WHERE id = ?', [element.id]);
             }));
             return res.status(200).json({
                 status: "ok",
                 result: {
-                    message: "Las fotos fueron eliminadas!"
+                    message: "Las fotos fueron eliminadas!",
+                    product: req.body
                 }
             });
         });
@@ -85,12 +136,13 @@ class PhotosController {
     updatePhotoGroup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             req.body.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                yield database_1.default.query('UPDATE photos SET id_group = ? WHERE id = ?', [element.id_group, element.id]);
+                yield database_1.default.query('UPDATE photos_shopsolver SET id_group = ? WHERE id = ?', [element.id_group, element.id]);
             }));
             return res.status(200).json({
                 status: "ok",
                 result: {
-                    message: "Se actualizo la carpeta!"
+                    message: "Se actualizo la carpeta!",
+                    product: req.body
                 }
             });
         });

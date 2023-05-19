@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private userService: UsersService,
+        public userService: UsersService,
         private router: Router,
-        private notifier: NotifierService
+        private notifier: NotifierService,
     ) { }
 
     ngOnInit(): void {
@@ -35,13 +35,13 @@ export class LoginComponent implements OnInit {
     }
 
 
-    login(user: User) {
+    logIn(user: User) {
         
-        this.userService.login(user).subscribe(data =>{
+        this.userService.logIn(user).subscribe(data =>{
             let dataResponse:Response = data;
             if(dataResponse.status == "ok"){
                 localStorage.setItem('token', dataResponse.result.token);
-                this.router.navigateByUrl('generate-csv')
+                this.router.navigateByUrl('home/generate-csv');
             }else{
                 this.notifier.notify('error', dataResponse.result.message );
             }

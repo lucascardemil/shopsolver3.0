@@ -8,18 +8,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'proyecto_foto';
-    
-    
-    constructor(public userService: UsersService, private router: Router,) {
-        
-    }
-  
-  
-    logout() {
-        this.userService.logout();
-        this.router.navigate(['login']);
-    }
-
-    
+    constructor() {}
 }

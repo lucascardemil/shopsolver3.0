@@ -12,7 +12,7 @@ class GroupsRoutes {
     }
     config() {
         this.router.post('/register', groups_controller_1.default.create);
-        this.router.delete('/:id', groups_controller_1.default.delete);
+        this.router.delete('/delete/:id', groups_controller_1.default.delete);
         this.router.get('/', groups_controller_1.default.all);
         this.router.get('/:id', groups_controller_1.default.one);
     }
