@@ -1,0 +1,50 @@
+<div class="container" fxFlex.sm="70" fxFlex.xs="90" fxFlex="50">
+    <div class="title">
+        <h2>Ingresar Foto</h2>
+    </div>
+    <div class="login">
+        <mat-card-content>
+            <form [formGroup]="photoForm" (ngSubmit)="addPhoto(photoForm.value)">
+                
+                <mat-form-field>
+                    <input type="number" formControlName="price" placeholder="Precio"  id="price" matInput>
+                </mat-form-field>
+            
+                <mat-form-field>
+                    <textarea formControlName="description" placeholder="Descripcion"  id="description" matInput></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Carpeta</mat-label>
+                    <mat-select formControlName="group">
+                        <mat-option *ngFor="let group of groups" [value]="group.id">
+                          {{group.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div style="float: right">
+                    <!-- <a mat-raised-button color="primary" (click)="showMarkerArea()">Editar Foto</a> -->
+                </div>
+                <div>
+                    <input type="file" class="file-input" accept=".png, .jpg, .jpeg" (change)="onFileSelected($event)" #fileUpload [disabled]="!photoForm.valid">
+                    <div class="file-upload">{{fileName || "No file uploaded yet."}}
+                        <a mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()" >
+                            <mat-icon>attach_file</mat-icon>
+                        </a>
+                    </div>
+                </div>
+                <canvas id="imageCanvas" class="d-none"></canvas>
+                <button mat-raised-button color="primary" [disabled]="!photoForm.valid">Guardar</button>
+            </form> 
+        </mat-card-content>     
+    </div>
+    
+</div>
+
+<notifier-container></notifier-container>
+
+  
+  
+
+

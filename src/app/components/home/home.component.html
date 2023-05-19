@@ -1,0 +1,33 @@
+<div>
+    <mat-toolbar color="primary">
+        <div fxShow="true" fxHide.gt-sm="true">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+
+        <!-- <a mat-button class="companyName" routerLink="/">
+            <img src="../../../assets/logotr-150x150.png" alt="logo" width="60" height="60">
+        </a> -->
+        <span class="example-spacer"></span>
+        <div fxShow="true" fxHide.lt-md="true">
+            <a mat-button routerLink="/home/add-file" routerLinkActive='active'>Carpetas</a>
+            <!-- <a mat-button routerLink="/home/add-photo" routerLinkActive='active'>Ingresar Fotos</a> -->
+            <a mat-button routerLink="/home/generate-csv" routerLinkActive='active'>Generar CSV</a>
+            <a mat-button href="#" (click)="logout()">Salir</a>
+        </div>
+    </mat-toolbar>
+    <mat-sidenav-container fxFlexFill class="example-container">
+        <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+            <div fxLayout="column">
+                <a mat-button routerLink="/home/add-file" routerLinkActive='active'>Carpetas</a>
+                <!-- <a mat-button routerLink="/home/add-photo" routerLinkActive='active'>Ingresar Fotos</a> -->
+                <a mat-button routerLink="/home/generate-csv" routerLinkActive='active'>Generar CSV</a>
+                <a mat-button href="#" (click)="logout()">Salir</a>
+            </div>
+        </mat-sidenav>
+        <mat-sidenav-content fxFlexFill>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

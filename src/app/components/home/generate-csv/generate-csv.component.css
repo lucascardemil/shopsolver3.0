@@ -1,0 +1,88 @@
+.sub-menu {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    display: table;
+    margin: 0;
+    background-color: #eee;
+}
+
+.title {
+    display: table-cell;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0 16px;
+}
+
+.example-button-row {
+    display: table-cell;
+    text-align: right;
+}
+
+
+
+.csv {
+    margin: 8px 8px 8px 0;
+    color: #fff;
+    background: #388E3C;
+}
+
+.zip {
+    margin: 8px 8px 8px 0;
+}
+
+.carpeta {
+    margin: 8px 8px 8px 0;
+    color: #fff;
+    background-color: #3f51b5;
+}
+
+.content {
+    padding: 16px;
+    height: 100%;
+}
+
+.content>mat-card {
+    width: 200px;
+}
+
+.mat-fab {
+    margin: 5px;
+    color: #fff;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.mat-paginator {
+    background-color: #eee;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.content-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px;
+    position: fixed;
+    bottom: 50px;
+    width: -webkit-fill-available;
+}
+
+.group-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mat-card-header-text{
+    margin: 0 !important;
+}
+
+.mat-card-title {
+    font-size: 18px;
+    font-weight: 400;
+}

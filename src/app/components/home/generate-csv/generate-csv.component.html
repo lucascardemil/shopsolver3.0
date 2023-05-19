@@ -1,0 +1,58 @@
+<section class="sub-menu">
+    <!-- <div fxHide.lt-md class="title">{{title}}</div> -->
+    <mat-card-subtitle fxHide.lt-md class="title">{{title}}</mat-card-subtitle>
+    <div class="example-button-row">
+        <button mat-raised-button class="carpeta" (click)="allPhotos()">Suprapp</button>
+        <button mat-raised-button class="carpeta" [matMenuTriggerFor]="menu" *ngIf="groups.length > 0">Carpeta</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let group of groups"
+                (click)="searchGroupPhotos(group.id)">{{group.name}}</button>
+        </mat-menu>
+        <button mat-raised-button class="csv" (click)="convertCSV()">
+            <mat-icon>insert_drive_file</mat-icon> CSV
+        </button>
+        <button mat-raised-button class="zip" color="primary" (click)="createZIP()">
+            <mat-icon>insert_drive_file</mat-icon> ZIP
+        </button>
+        <mat-slider fxHide.lt-md [max]="6" [min]="3" [(ngModel)]="gridColumns" [thumbLabel]="true"></mat-slider>
+    </div>
+</section>
+
+<div class="content">
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div [fxFlex]="(60/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
+            *ngFor="let photo of photos | paginate:page_size:page_number">
+            <mat-card class="mat-elevation-z4">
+                <img mat-card-image [src]="photo.image">
+                
+                    <mat-card-title>{{ photo.name }}</mat-card-title>
+                    <mat-card-subtitle *ngIf="photo.price > 0">${{ photo.price }}</mat-card-subtitle>
+               
+                <mat-card-content>
+                    <p>{{ photo.description }}</p>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions class="group-button">
+                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)">
+                        Editar
+                    </button>
+                    <mat-checkbox color="primary" [value]="photo.id" [checked]="photo.select" (change)="onChangePhoto($event)" *ngIf="title !== 'Productos de Suprapp'"></mat-checkbox>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <h2 *ngIf="!photos.length">No hay fotos!</h2>
+    </div>
+    <div class="content-button" *ngIf="title !== 'Productos de Suprapp'">
+        <button mat-fab color="warn" (click)="openDeleteDialog()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-fab color="primary" (click)="openEditDialog()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+</div>
+
+<mat-paginator [length]="photos.length" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="paginator($event)" showFirstLastButtons></mat-paginator>
+    
+<notifier-container></notifier-container>

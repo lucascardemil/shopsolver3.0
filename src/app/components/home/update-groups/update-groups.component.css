@@ -1,0 +1,13 @@
+:host{
+    margin: 20px;
+}
+mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    background-color: #3f51b5;
+    color: #fff;
+}
+
+
