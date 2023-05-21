@@ -44,22 +44,25 @@ export class UpdatePhotosComponent implements OnInit {
     }
 
     updateProduct(product: any) {
-
         var canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
         var ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-        if (product.price > 0 && product.description !== '' && product.group > 0 && this.photo_edit.length > 0) {
+        const validate = this.validateForm([{
+            price: product.price,
+            group: product.group,
+            description: product.description,
+            image: this.photo_edit
+        }]);
 
+        if (validate === 'ok') {
             let formData = new FormData();
-
-            this.photo_edit.forEach((element: any) => {
-                formData.append('image', element.file[0]);
-            });
+            let lastImage = this.photo_edit[this.photo_edit.length - 1];
 
             formData.append('id', this.id);
             formData.append('price', product.price);
             formData.append('description', product.description);
             formData.append('group', product.group);
+            formData.append('image', lastImage.file[0]);
 
 
             this.photoService.savePhoto(formData).subscribe(data => {
@@ -74,7 +77,8 @@ export class UpdatePhotosComponent implements OnInit {
                     this.dialogEditProduct.close(dataResponse.result);
                 }
             });
-
+        }else{
+            this.dialogEditProduct.close({'error' : validate});
         }
     }
     
@@ -164,6 +168,22 @@ export class UpdatePhotosComponent implements OnInit {
 
     onNoClick(): void {
         this.dialogEditProduct.close();
+    }
+
+    validateForm(error: any[]){
+        let message = 'ok';
+        error.map((element: any) => {
+            if(element.price === 0){
+                message = 'El precio es requerido';
+            }else if(element.description === ''){
+                message = 'La descripcion es requerida';
+            }else if(element.group === 0){
+                message = 'La carpeta es requerida';
+            }else if(element.image.length === 0){
+                message = 'La foto es requerida';
+            }
+        })
+        return message;
     }
 
 }

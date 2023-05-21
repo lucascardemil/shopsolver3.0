@@ -5,14 +5,35 @@ const fs = require('fs');
 class PhotosController {
 
     public async all(req: Request, res: Response) {
-        const photos = await pool.query(`SELECT * FROM products`);
+        const photos = await pool.query(`SELECT
+                                            products.id AS id,
+                                            products.name AS name,
+                                            products.detail AS detail,
+                                            products.enabled AS enabled,
+                                            CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image
+                                        FROM
+                                            products
+                                        LEFT JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product`);
         res.json(photos);
     }
 
 
     public async searchGroupPhotos(req: Request, res: Response) {
         const { id } = req.params;
-        const photos = await pool.query('SELECT * FROM products INNER JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product WHERE photos_shopsolver.id_group = ?', [id]);
+        const photos = await pool.query(`SELECT
+                                            products.name AS name,
+                                            products.detail AS detail,
+                                            products.enabled AS enabled,
+                                            CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image,
+                                            photos_shopsolver.id AS id,
+                                            photos_shopsolver.id_product AS id_product,
+                                            photos_shopsolver.id_group AS id_group,
+                                            photos_shopsolver.price AS price,
+                                            photos_shopsolver.description AS description,
+                                            photos_shopsolver.image AS image
+                                        FROM
+                                            products
+                                        LEFT JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product WHERE photos_shopsolver.id_group = ?`, [id]);
         if (photos.length > 0) {
             const group = await pool.query('SELECT * FROM groups_shopsolver WHERE id = ?', [id]);
             return res.status(200).json({

@@ -47,8 +47,6 @@ export class GenerateCsvComponent implements OnInit {
         })
 
         this.groupsService.getGroups().subscribe(res => (this.groups = res));
-
-
     }
 
     paginator(e: PageEvent) {
@@ -110,8 +108,12 @@ export class GenerateCsvComponent implements OnInit {
 
         dialogEditProduct.afterClosed().subscribe(result => {
             if (result !== undefined) {
-                this.notifier.notify('success', result.message);
-                this.searchGroupPhotos(result.product.id_group);
+                if(!result.error){
+                    this.notifier.notify('success', result.message);
+                    this.searchGroupPhotos(result.product.id_group);
+                }else{
+                    this.notifier.notify('error', result.error);
+                }
             }
         });
     }

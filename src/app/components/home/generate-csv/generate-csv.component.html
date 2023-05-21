@@ -24,19 +24,21 @@
             *ngFor="let photo of photos | paginate:page_size:page_number">
             <mat-card class="mat-elevation-z4">
                 <img mat-card-image [src]="photo.image">
-                
-                    <mat-card-title>{{ photo.name }}</mat-card-title>
-                    <mat-card-subtitle *ngIf="photo.price > 0">${{ photo.price }}</mat-card-subtitle>
-               
+                <mat-card-title>{{ photo.name }}</mat-card-title>
+                <mat-card-subtitle *ngIf="photo.price > 0">${{ photo.price }}</mat-card-subtitle>
                 <mat-card-content>
                     <p>{{ photo.description }}</p>
                     <mat-divider></mat-divider>
                 </mat-card-content>
                 <mat-card-actions class="group-button">
-                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)">
+                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)" *ngIf="photo.has_image === 0">
                         Editar
                     </button>
-                    <mat-checkbox color="primary" [value]="photo.id" [checked]="photo.select" (change)="onChangePhoto($event)" *ngIf="title !== 'Productos de Suprapp'"></mat-checkbox>
+                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)" *ngIf="photo.image">
+                        Editar
+                    </button>
+                    <mat-checkbox color="primary" [value]="photo.id" [checked]="photo.select"
+                        (change)="onChangePhoto($event)" *ngIf="title !== 'Productos de Suprapp'"></mat-checkbox>
                 </mat-card-actions>
             </mat-card>
         </div>
@@ -54,5 +56,5 @@
 
 <mat-paginator [length]="photos.length" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 100]"
     (page)="paginator($event)" showFirstLastButtons></mat-paginator>
-    
+
 <notifier-container></notifier-container>

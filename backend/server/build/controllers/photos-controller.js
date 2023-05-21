@@ -17,14 +17,35 @@ const fs = require('fs');
 class PhotosController {
     all(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const photos = yield database_1.default.query(`SELECT * FROM products`);
+            const photos = yield database_1.default.query(`SELECT
+                                            products.id AS id,
+                                            products.name AS name,
+                                            products.detail AS detail,
+                                            products.enabled AS enabled,
+                                            CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image
+                                        FROM
+                                            products
+                                        LEFT JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product`);
             res.json(photos);
         });
     }
     searchGroupPhotos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const photos = yield database_1.default.query('SELECT * FROM products INNER JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product WHERE photos_shopsolver.id_group = ?', [id]);
+            const photos = yield database_1.default.query(`SELECT
+                                            products.name AS name,
+                                            products.detail AS detail,
+                                            products.enabled AS enabled,
+                                            CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image,
+                                            photos_shopsolver.id AS id,
+                                            photos_shopsolver.id_product AS id_product,
+                                            photos_shopsolver.id_group AS id_group,
+                                            photos_shopsolver.price AS price,
+                                            photos_shopsolver.description AS description,
+                                            photos_shopsolver.image AS image
+                                        FROM
+                                            products
+                                        LEFT JOIN photos_shopsolver ON products.id = photos_shopsolver.id_product WHERE photos_shopsolver.id_group = ?`, [id]);
             if (photos.length > 0) {
                 const group = yield database_1.default.query('SELECT * FROM groups_shopsolver WHERE id = ?', [id]);
                 return res.status(200).json({
