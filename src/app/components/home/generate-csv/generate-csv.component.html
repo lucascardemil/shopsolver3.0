@@ -24,17 +24,18 @@
             *ngFor="let photo of photos | paginate:page_size:page_number">
             <mat-card class="mat-elevation-z4">
                 <img mat-card-image [src]="photo.image">
+                <mat-card-title>{{ photo.description }}</mat-card-title>
                 <mat-card-title>{{ photo.name }}</mat-card-title>
                 <mat-card-subtitle *ngIf="photo.price > 0">${{ photo.price }}</mat-card-subtitle>
-                <mat-card-content>
-                    <p>{{ photo.description }}</p>
-                    <mat-divider></mat-divider>
-                </mat-card-content>
+                <mat-divider *ngIf="photo.has_image === 0"></mat-divider>
+                <mat-divider *ngIf="photo.image"></mat-divider>
                 <mat-card-actions class="group-button">
-                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)" *ngIf="photo.has_image === 0">
+                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)"
+                        *ngIf="photo.has_image === 0">
                         Editar
                     </button>
-                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)" *ngIf="photo.image">
+                    <button mat-raised-button color="primary" (click)="openEditProductDialog(photo.id)"
+                        *ngIf="photo.image">
                         Editar
                     </button>
                     <mat-checkbox color="primary" [value]="photo.id" [checked]="photo.select"

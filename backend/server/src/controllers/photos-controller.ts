@@ -21,7 +21,7 @@ class PhotosController {
     public async searchGroupPhotos(req: Request, res: Response) {
         const { id } = req.params;
         const photos = await pool.query(`SELECT
-                                            products.name AS name,
+                                            
                                             products.detail AS detail,
                                             products.enabled AS enabled,
                                             CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image,

@@ -33,7 +33,7 @@ class PhotosController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const photos = yield database_1.default.query(`SELECT
-                                            products.name AS name,
+                                            
                                             products.detail AS detail,
                                             products.enabled AS enabled,
                                             CASE WHEN photos_shopsolver.image IS NULL THEN false ELSE true END AS has_image,
