@@ -101,9 +101,9 @@ export class GenerateCsvComponent implements OnInit {
         });
     }
 
-    openEditProductDialog(id: number): void {
+    openEditProductDialog(data: any): void {
         const dialogEditProduct = this.dialog.open(UpdatePhotosComponent, {
-            data: id
+            data: data
         });
 
         dialogEditProduct.afterClosed().subscribe(result => {

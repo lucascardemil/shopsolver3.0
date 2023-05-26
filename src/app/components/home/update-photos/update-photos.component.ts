@@ -26,18 +26,17 @@ export class UpdatePhotosComponent implements OnInit {
 
     constructor(
         public dialogEditProduct: MatDialogRef<UpdatePhotosComponent>,
-        @Inject(MAT_DIALOG_DATA) public id: any,
+        @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private photoService: PhotosService,
-        private notifier: NotifierService,
         private groupsService: GroupsService,) { }
 
     ngOnInit(): void {
 
         this.productForm = this.formBuilder.group({
-            price: ['', [Validators.required]],
-            description: ['', [Validators.required, Validators.minLength(5)]],
-            group: ['', [Validators.required]]
+            price: [this.data.price || '', [Validators.required]],
+            description: [this.data.name || this.data.description || '', [Validators.required, Validators.minLength(5)]],
+            group: [this.data.id_group || '', [Validators.required]]
         })
 
         this.groupsService.getGroups().subscribe(res => (this.groups = res));
@@ -58,7 +57,7 @@ export class UpdatePhotosComponent implements OnInit {
             let formData = new FormData();
             let lastImage = this.photo_edit[this.photo_edit.length - 1];
 
-            formData.append('id', this.id);
+            formData.append('id', this.data.id);
             formData.append('price', product.price);
             formData.append('description', product.description);
             formData.append('group', product.group);
